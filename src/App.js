@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/shared/Navbar";
+import Home from "./components/Pages/Home";
+import { useState } from "react";
+import { ThemeContext } from "./components/Context/ThemeContext";
+import AddTodo from "./components/Pages/AddTodo";
+import EditTodo from "./components/Pages/EditTodo";
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+      <div
+        className={`h-screen container mx-auto px-4 ${
+          isDarkMode
+            ? "bg-black text-white ease-in duration-500 "
+            : "bg-white text-black ease-in duration-500 "
+        }`}
+      >
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/add" element={<AddTodo />} />
+            <Route path="/edit/:id" element={<EditTodo />} />
+          </Routes>
+        </div>
+      </div>
+    </ThemeContext.Provider>
   );
 }
 
