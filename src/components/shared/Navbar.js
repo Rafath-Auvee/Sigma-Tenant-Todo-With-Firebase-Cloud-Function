@@ -8,12 +8,15 @@ const Navbar = () => {
 
   const userMenu = (
     <>
-      <li className="hover">
-        <Link to="/">Home</Link>
-      </li>
-      <li className="hover">
-        <Link to="/add">Add Todo</Link>
-      </li>
+      <div className="flex items-center ">
+        <li className="hover">
+          <Link to="/">Home</Link>
+        </li>
+        <li className="hover">
+          <Link to="/add">Add Task</Link>
+        </li>
+        <DarkModeToggle onToggle={setIsDarkMode} />
+      </div>
     </>
   );
 
@@ -45,14 +48,12 @@ const Navbar = () => {
               {userMenu}
             </ul>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+          <a className="btn btn-ghost normal-case text-xl">Rafath Todo</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal p-0">{userMenu}</ul>
         </div>
-        <div className="navbar-end">
-          <DarkModeToggle onToggle={setIsDarkMode} />
-        </div>
+        <div className="navbar-end"></div>
       </div>
     </div>
   );

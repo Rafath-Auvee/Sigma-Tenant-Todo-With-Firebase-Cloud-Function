@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ThemeContext } from "./components/Context/ThemeContext";
 import AddTodo from "./components/Pages/AddTodo";
 import EditTodo from "./components/Pages/EditTodo";
+import Footer from "./components/shared/Footer";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -25,6 +26,7 @@ function App() {
             <Route path="/add" element={<AddTodo />} />
             <Route path="/edit/:id" element={<EditTodo />} />
           </Routes>
+          <Footer/>
         </div>
       </div>
     </ThemeContext.Provider>
