@@ -27,7 +27,7 @@ const EditTodo = () => {
     } else {
       // console.log("All inputs are empty");
     }
-    const api = `http://localhost:5000/edit/${_id}`;
+    const api = `https://todoapp-auvee.herokuapp.com/edit/${_id}`;
     fetch(api, {
       method: "PUT",
       headers: {

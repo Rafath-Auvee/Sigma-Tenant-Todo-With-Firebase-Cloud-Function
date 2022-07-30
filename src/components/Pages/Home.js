@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 const Home = () => {
-  const baseURL = "http://localhost:5000/all";
+  const baseURL = "https://todoapp-auvee.herokuapp.com/all";
   const [todos, setTodo] = useState([]);
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const Home = () => {
   const confirmDelete = async (id) => {
     const agree = window.confirm("Confirm?");
     if (agree) {
-      const url = `http://localhost:5000/all/${id}`;
+      const url = `https://todoapp-auvee.herokuapp.com/all/${id}`;
       console.log(id);
       fetch(url, {
         method: "DELETE",
@@ -48,7 +48,7 @@ const Home = () => {
 
   const handleComplete = (id) => {
     const agree = window.confirm("Complete?");
-    const url = `http://localhost:5000/all/${id}`;
+    const url = `https://todoapp-auvee.herokuapp.com/all/${id}`;
     fetch(`${url}`, {
       method: "PUT",
       headers: {
@@ -60,7 +60,7 @@ const Home = () => {
 
   const handleError = (id) => {
     const agree = window.confirm("Not Complete?");
-    const url = `http://localhost:5000/all/${id}`;
+    const url = `https://todoapp-auvee.herokuapp.com/all/${id}`;
     fetch(`${url}`, {
       method: "PATCH",
       headers: {

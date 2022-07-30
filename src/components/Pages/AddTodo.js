@@ -23,7 +23,7 @@ const AddTodo = () => {
     } else {
       // console.log("All inputs are empty");
     }
-    const api = `http://localhost:5000/all`;
+    const api = `https://todoapp-auvee.herokuapp.com/all`;
     fetch(api, {
       method: "POST",
       headers: {
