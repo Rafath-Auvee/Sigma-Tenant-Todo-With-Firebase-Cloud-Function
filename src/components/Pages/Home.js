@@ -71,7 +71,7 @@ const Home = () => {
   };
 
   return (
-    <div className="container mx-auto my-7">
+    <div className="container mx-auto my-7 px-5">
 
       <h1 className="text-center text-5xl mb-5"> <a href="https://github.com/Rafath-Bin-Zafar-Auvee/" className="btn btn-lg btn-outline bg-green-500" target="_blank" rel="noopener noreferrer"> Developed By : Rafath Bin Zafar Auvee 😎</a></h1>
       {/* <div className="divider bg-black"></div> */}

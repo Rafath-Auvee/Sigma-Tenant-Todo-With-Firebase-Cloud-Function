@@ -9,8 +9,8 @@ const Footer = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   return (
-    <div>
-      <footer className={`footer items-center p-4 text-black container mx-auto px-4`}>
+    <div className="text-black bg-white ">
+      <footer className={`footer items-center p-4 container mx-auto px-4`}>
         <div className="items-center grid-flow-col">
           <svg
             width="36"
