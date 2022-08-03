@@ -3,6 +3,7 @@ import { uid } from "uid";
 import { database } from "../../firebase.init.js";
 import { set, ref, onValue, remove, update } from "firebase/database";
 import { useParams, useNavigate } from "react-router-dom";
+import ButtonMailto from "./../shared/ButtonMailto";
 const Home = () => {
   const baseURL = "https://todoapp-auvee.herokuapp.com/all";
   const [todo, setTodo] = useState("");
@@ -29,7 +30,6 @@ const Home = () => {
     await navigate(`/edit/${todo.uidd}`, { state: todo });
   };
 
-
   const confirmDelete = async (id) => {
     const agree = window.confirm("Confirm Delete?");
     if (agree) {
@@ -42,7 +42,6 @@ const Home = () => {
     update(ref(database, `/tasks/${id}`), {
       status: true,
     });
-
   };
 
   const handlePending = (id) => {
@@ -50,13 +49,36 @@ const Home = () => {
     update(ref(database, `/tasks/${id}`), {
       status: false,
     });
-    
   };
 
   return (
     <div className="container mx-auto my-7 px-5">
+      <h1 className="text-center text-5xl mb-5">
+        {" "}
+        <a
+          href="https://github.com/Rafath-Bin-Zafar-Auvee/"
+          className="btn btn-lg btn-outline bg-green-500"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {" "}
+          Developed By : Rafath Bin Zafar Auvee 😎
+        </a>
+      </h1>
 
-      <h1 className="text-center text-5xl mb-5"> <a href="https://github.com/Rafath-Bin-Zafar-Auvee/" className="btn btn-lg btn-outline bg-green-500" target="_blank" rel="noopener noreferrer"> Developed By : Rafath Bin Zafar Auvee 😎</a></h1>
+
+      <h1 className="text-center text-5xl mb-5">
+        {" "}
+        <a
+          href="mailto:rafath.auvee@gmail.com"
+          className="btn btn-lg btn-outline bg-green-500"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Email Me! 📧
+        </a>
+      </h1>
+
       {/* <div className="divider bg-black"></div> */}
       <div className="overflow-x-auto">
         <table className={`table w-full `}>
@@ -64,7 +86,7 @@ const Home = () => {
             <tr className="bg-green-500">
               <th></th>
               <th className="text-1xl">Name</th>
-              
+
               <th className="text-1xl">Date</th>
               <th className="text-1xl">Status</th>
               <th></th>
@@ -73,12 +95,9 @@ const Home = () => {
           </thead>
           <tbody>
             {todos.map((todo, index) => (
-              
               <tr key={index}>
-                {(console.log(todo))}
+                {console.log(todo)}
                 <th>{index + 1}</th>
-                
-                
 
                 {todo.status === true && (
                   <td className="line-through text-green-500">{todo.name}</td>
@@ -87,8 +106,6 @@ const Home = () => {
                   <td className="no-underline">{todo.name}</td>
                 )}
 
-                
-
                 {todo.status === true && (
                   <td className="line-through text-green-500">{todo.date}</td>
                 )}
@@ -96,7 +113,6 @@ const Home = () => {
                   <td className="no-underline">{todo.date}</td>
                 )}
 
-                
                 <td>
                   {todo.status === "" && (
                     <button
@@ -115,8 +131,9 @@ const Home = () => {
                     </button>
                   )}
                   {todo.status === true && (
-                    <button className="btn btn-outline bg-green-500 text-white btn-xs"
-                    onClick={() => handlePending(todo.uidd)}
+                    <button
+                      className="btn btn-outline bg-green-500 text-white btn-xs"
+                      onClick={() => handlePending(todo.uidd)}
                     >
                       Complete
                     </button>

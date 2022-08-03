@@ -2,7 +2,7 @@
 
 Live Link: https://rafath-todo.netlify.app/
 
-Note : No external dependencies used for data fetching or post, put, get method
+Made with React, Tailwindcss, Firebase Cloud Functions , Firebase Realtime Datebase
 
 Dependencies & Feature
 
