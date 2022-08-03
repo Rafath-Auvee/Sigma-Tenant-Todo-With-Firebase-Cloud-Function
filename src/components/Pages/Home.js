@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { uid } from "uid";
+import { database } from "../../firebase.init.js";
 import { set, ref, onValue, remove, update } from "firebase/database";
 import { useParams, useNavigate } from "react-router-dom";
 const Home = () => {
   const baseURL = "https://todoapp-auvee.herokuapp.com/all";
-  const [todos, setTodo] = useState([]);
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${baseURL}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setTodo(data);
-        // console.log(setTodo)
-        // console.log(data)
-        // console.log(todos)
-      });
-  }, [todos]);
+    onValue(ref(database, `/tasks/`), (snapshot) => {
+      setTodos([]);
+      const data = snapshot.val();
+      if (data !== null) {
+        Object.values(data).map((todo) => {
+          setTodos((oldArray) => [...oldArray, todo]);
+          // console.log(todo)
+        });
+      }
+    });
+  }, []);
 
   const editTodo = async (todo) => {
     await navigate(`/edit/${todo._id}`, { state: todo });
@@ -35,7 +39,7 @@ const Home = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           const remaining = todos.filter((todo) => todo._id !== id);
           setTodo(remaining);
         });
@@ -95,22 +99,27 @@ const Home = () => {
           </thead>
           <tbody>
             {todos.map((todo, index) => (
+              
               <tr key={index}>
+                {(console.log(todo))}
                 <th>{index + 1}</th>
-                {todo.Complete === true && (
-                  <td className="line-through text-green-500">{todo.Task}</td>
+                
+                {todo ? <td className="no-underline">{todo.name}</td> : <td className="line-through text-green-500 ">{todo.name}</td>}
+
+                {/* {todo.Complete === true && (
+                  
                 )}
                 {todo.Complete === false && (
-                  <td className="no-underline">{todo.Task}</td>
-                )}
+                  <td className="no-underline">{todo.name}</td>
+                )} */}
 
                 
 
                 {todo.Complete === true && (
-                  <td className="line-through text-green-500">{todo.Deadline}</td>
+                  <td className="line-through text-green-500">{todo.date}</td>
                 )}
                 {todo.Complete === false && (
-                  <td className="no-underline">{todo.Deadline}</td>
+                  <td className="no-underline">{todo.date}</td>
                 )}
 
                 
