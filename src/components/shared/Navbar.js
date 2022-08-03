@@ -15,6 +15,9 @@ const Navbar = () => {
         <li className="hover">
           <Link to="/add">Add Task</Link>
         </li>
+        <li className="hover">
+          <Link to="/ds">Data Structure</Link>
+        </li>
         <DarkModeToggle onToggle={setIsDarkMode} />
       </div>
     </>

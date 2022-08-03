@@ -8,6 +8,7 @@ import EditTodo from "./components/Pages/EditTodo";
 import Footer from "./components/shared/Footer";
 import NotFound from "./components/Pages/NotFound";
 import Loading from "./components/shared/Loading";
+import DataStructure from "./components/Pages/DataStructure";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/add" element={<AddTodo />} />
                 <Route path="/edit/:id" element={<EditTodo />} />
+                <Route path="/ds" element={<DataStructure />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Footer />

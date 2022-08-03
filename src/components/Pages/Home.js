@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { uid } from "uid";
-import { getAuth } from "firebase/auth";
+
 import { database } from "../../firebase.init.js";
 import { set, ref, onValue, remove, update } from "firebase/database";
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,10 +11,9 @@ const Home = () => {
   const [todos, setTodos] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");
-
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
   const navigate = useNavigate();
-  const auth = getAuth();
-  const user = auth.currentUser;
 
   useEffect(() => {
     onValue(ref(database, `/tasks/`), (snapshot) => {
@@ -48,7 +47,7 @@ const Home = () => {
       update(ref(database, `/tasks/${id}`), {
         status: true,
         lat: position.coords.latitude,
-        lon: position.coords.longitude
+        lon: position.coords.longitude,
       });
     });
   };
@@ -61,18 +60,23 @@ const Home = () => {
       update(ref(database, `/tasks/${id}`), {
         status: false,
         lat: position.coords.latitude,
-        lon: position.coords.longitude
+        lon: position.coords.longitude,
       });
     });
   };
 
-  // navigator.geolocation.getCurrentPosition(function(position) {
-  //   const lati = position.coords.latitude
-  //   const long = position.coords.longitude
-  //   // return lati, long
-  //   console.log("Latitude is :", position.coords.latitude);
-  //   console.log("Longitude is :", position.coords.longitude);
-  // });
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const lati = position.coords.latitude;
+      const long = position.coords.longitude;
+      setLat(lati);
+      setLong(long);
+      // return lati, long
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
+  }, [lat, long]);
+
 
   return (
     <div className="container mx-auto my-7 px-5">
@@ -89,9 +93,9 @@ const Home = () => {
         </a>
       </h1>
 
-      {/* <h1 className="text-center text-5xl mb-5">
-        My Location ({lati}), {long}
-      </h1> */}
+      <h1 className="text-center text-2xl mb-5">
+        My Location Lat: {lat}, Long: {long}
+      </h1>
 
       <h1 className="text-center text-5xl mb-5">
         {" "}
