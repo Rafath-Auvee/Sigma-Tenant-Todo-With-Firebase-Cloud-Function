@@ -10,18 +10,12 @@ const AddTodo = () => {
     e.preventDefault();
     
     const uidd = uid();
+    
     const Task = e.target.TaskName.value;
-    // const Description = e.target.TaskDescription.value;
     const Deadline = e.target.TaskDate.value;
     const Status = false
     
 
-    // const task = {
-    //   Task,
-    //   // Description,
-    //   Deadline,
-    //   uidd
-    // };
     set(ref(database, `/tasks/${uidd}`), {
       name: Task,
       date: Deadline,

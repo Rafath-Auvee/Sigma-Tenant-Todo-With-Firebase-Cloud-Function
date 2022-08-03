@@ -26,7 +26,7 @@ const Home = () => {
   }, []);
 
   const editTodo = async (todo) => {
-    await navigate(`/edit/${todo._id}`, { state: todo });
+    await navigate(`/edit/${todo.uidd}`, { state: todo });
   };
 
 
@@ -39,26 +39,18 @@ const Home = () => {
 
   const handleComplete = (id) => {
     const agree = window.confirm("Complete?");
-    const url = `https://todoapp-auvee.herokuapp.com/all/${id}`;
-    fetch(`${url}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(),
-    }).then((res) => res.json().then((data) => {}));
+    update(ref(database, `/tasks/${id}`), {
+      status: true,
+    });
+
   };
 
-  const handleError = (id) => {
+  const handlePending = (id) => {
     const agree = window.confirm("Not Complete?");
-    const url = `https://todoapp-auvee.herokuapp.com/all/${id}`;
-    fetch(`${url}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(),
-    }).then((res) => res.json().then((data) => {}));
+    update(ref(database, `/tasks/${id}`), {
+      status: false,
+    });
+    
   };
 
   return (
@@ -89,7 +81,7 @@ const Home = () => {
                 
 
                 {todo.status === true && (
-                  <td className="no-underline">{todo.name}</td>
+                  <td className="line-through text-green-500">{todo.name}</td>
                 )}
                 {todo.status === false && (
                   <td className="no-underline">{todo.name}</td>
@@ -117,14 +109,14 @@ const Home = () => {
                   {todo.status === false && (
                     <button
                       className="btn btn-outline bg-blue-500 text-white btn-xs"
-                      onClick={() => handleComplete(todo._id)}
+                      onClick={() => handleComplete(todo.uidd)}
                     >
                       Pending
                     </button>
                   )}
                   {todo.status === true && (
                     <button className="btn btn-outline bg-green-500 text-white btn-xs"
-                    onClick={() => handleError(todo._id)}
+                    onClick={() => handlePending(todo.uidd)}
                     >
                       Complete
                     </button>
