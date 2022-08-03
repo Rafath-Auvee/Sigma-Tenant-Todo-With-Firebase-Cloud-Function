@@ -6,6 +6,8 @@ import { set, ref, onValue, remove, update } from "firebase/database";
 const AddTodo = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+
+
   const handleTodo = async (e) => {
     e.preventDefault();
     
@@ -15,13 +17,20 @@ const AddTodo = () => {
     const Deadline = e.target.TaskDate.value;
     const Status = false
     
-
-    set(ref(database, `/tasks/${uidd}`), {
-      name: Task,
-      date: Deadline,
-      uidd: uidd,
-      status: Status
+    
+    navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+      set(ref(database, `/tasks/${uidd}`), {
+        name: Task,
+        date: Deadline,
+        uidd: uidd,
+        status: Status,
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      });
     });
+
     e.target.reset();
     alert("Task Added Successfully!!")
 

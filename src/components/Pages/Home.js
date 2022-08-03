@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { uid } from "uid";
+import { getAuth } from "firebase/auth";
 import { database } from "../../firebase.init.js";
 import { set, ref, onValue, remove, update } from "firebase/database";
 import { useParams, useNavigate } from "react-router-dom";
@@ -12,6 +13,8 @@ const Home = () => {
   const [task, setTask] = useState("");
 
   const navigate = useNavigate();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   useEffect(() => {
     onValue(ref(database, `/tasks/`), (snapshot) => {
@@ -39,17 +42,37 @@ const Home = () => {
 
   const handleComplete = (id) => {
     const agree = window.confirm("Complete?");
-    update(ref(database, `/tasks/${id}`), {
-      status: true,
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+      update(ref(database, `/tasks/${id}`), {
+        status: true,
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      });
     });
   };
 
   const handlePending = (id) => {
     const agree = window.confirm("Not Complete?");
-    update(ref(database, `/tasks/${id}`), {
-      status: false,
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+      update(ref(database, `/tasks/${id}`), {
+        status: false,
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      });
     });
   };
+
+  // navigator.geolocation.getCurrentPosition(function(position) {
+  //   const lati = position.coords.latitude
+  //   const long = position.coords.longitude
+  //   // return lati, long
+  //   console.log("Latitude is :", position.coords.latitude);
+  //   console.log("Longitude is :", position.coords.longitude);
+  // });
 
   return (
     <div className="container mx-auto my-7 px-5">
@@ -66,6 +89,9 @@ const Home = () => {
         </a>
       </h1>
 
+      {/* <h1 className="text-center text-5xl mb-5">
+        My Location ({lati}), {long}
+      </h1> */}
 
       <h1 className="text-center text-5xl mb-5">
         {" "}
@@ -86,17 +112,18 @@ const Home = () => {
             <tr className="bg-green-500">
               <th></th>
               <th className="text-1xl">Name</th>
-
               <th className="text-1xl">Date</th>
+              <th className="text-1xl">Location</th>
               <th className="text-1xl">Status</th>
               <th></th>
               <th></th>
             </tr>
           </thead>
           <tbody>
+            {/* ({console.log(user)}) */}
             {todos.map((todo, index) => (
               <tr key={index}>
-                {console.log(todo)}
+                {/* {console.log(todo)} */}
                 <th>{index + 1}</th>
 
                 {todo.status === true && (
@@ -113,6 +140,9 @@ const Home = () => {
                   <td className="no-underline">{todo.date}</td>
                 )}
 
+                <td className="no-underline">
+                  {todo.lat}, {todo.lon}
+                </td>
                 <td>
                   {todo.status === "" && (
                     <button

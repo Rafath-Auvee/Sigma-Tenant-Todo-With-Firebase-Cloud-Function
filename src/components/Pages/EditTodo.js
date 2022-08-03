@@ -13,15 +13,21 @@ const EditTodo = () => {
   const handleEditTodo = async (e) => {
     e.preventDefault();
 
-
     const Task = e.target.TaskName.value;
     const Deadline = e.target.TaskDate.value;
 
-    update(ref(database, `/tasks/${uidd}`), {
-      name: Task,
-      uidd: uidd,
-      date: Deadline,
-      status: status,
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+
+      update(ref(database, `/tasks/${uidd}`), {
+        name: Task,
+        uidd: uidd,
+        date: Deadline,
+        status: status,
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      });
     });
   };
 
