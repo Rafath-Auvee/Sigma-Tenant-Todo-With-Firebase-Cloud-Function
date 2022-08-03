@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { uid } from "uid";
+import { set, ref, onValue, remove, update } from "firebase/database";
 import { useParams, useNavigate } from "react-router-dom";
 const Home = () => {
   const baseURL = "https://todoapp-auvee.herokuapp.com/all";
   const [todos, setTodo] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,7 +86,7 @@ const Home = () => {
             <tr className="bg-green-500">
               <th></th>
               <th className="text-1xl">Name</th>
-              <th className="text-1xl">Description</th>
+              
               <th className="text-1xl">Date</th>
               <th className="text-1xl">Status</th>
               <th></th>
@@ -99,24 +104,7 @@ const Home = () => {
                   <td className="no-underline">{todo.Task}</td>
                 )}
 
-                {todo.Complete === true && (
-                  
-                    <td className="break-all w-1/5 line-through text-green-500">
-                      {todo.Description.length > 100
-                        ? todo.Description.slice(0, 20)
-                        : todo.Description}
-                    </td>
-                  
-                )}
-                {todo.Complete === false && (
-                  
-                    <td className="break-all w-1/5">
-                      {todo.Description.length > 100
-                        ? todo.Description.slice(0, 50)
-                        : todo.Description}
-                    </td>
-                  
-                )}
+                
 
                 {todo.Complete === true && (
                   <td className="line-through text-green-500">{todo.Deadline}</td>

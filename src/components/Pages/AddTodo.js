@@ -1,41 +1,33 @@
 import React, { useState } from "react";
+import { database } from "../../firebase.init.js";
+import { uid } from "uid";
+import { set, ref, onValue, remove, update } from "firebase/database";
 
 const AddTodo = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleTodo = async (e) => {
     e.preventDefault();
+    
+    const uidd = uid();
     const Task = e.target.TaskName.value;
-    const Description = e.target.TaskDescription.value;
+    // const Description = e.target.TaskDescription.value;
     const Deadline = e.target.TaskDate.value;
-    const Complete = false;
+    
 
-    const task = {
-      Task,
-      Description,
-      Deadline,
-      Complete,
-    };
+    // const task = {
+    //   Task,
+    //   // Description,
+    //   Deadline,
+    //   uidd
+    // };
+    set(ref(database, `/tasks/${uidd}`), {
+      name: Task,
+      date: Deadline,
+      uidd: uidd
+    });
+    e.target.reset();
 
-    console.log(task);
-    if (task) {
-      // console.log("All inputs are working");
-    } else {
-      // console.log("All inputs are empty");
-    }
-    const api = `https://todoapp-auvee.herokuapp.com/all`;
-    fetch(api, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(task),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log("Working and the Data", data);
-        e.target.reset();
-      });
   };
 
   return (
@@ -89,21 +81,7 @@ const AddTodo = () => {
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label
-              className="block uppercase tracking-wide  text-xs font-bold mb-2"
-              for="grid-password"
-            >
-              Task Description
-            </label>
-            <textarea
-              rows="10"
-              name="TaskDescription"
-              className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              placeholder="You are hired!"
-              required
-            ></textarea>
-          </div>
+          
           <div className="flex justify-between w-full px-3">
             <button
               className="shadow bg-indigo-600 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded"
