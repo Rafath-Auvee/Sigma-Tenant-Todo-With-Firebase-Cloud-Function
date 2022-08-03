@@ -13,6 +13,7 @@ const AddTodo = () => {
     const Task = e.target.TaskName.value;
     // const Description = e.target.TaskDescription.value;
     const Deadline = e.target.TaskDate.value;
+    const Status = false
     
 
     // const task = {
@@ -24,9 +25,11 @@ const AddTodo = () => {
     set(ref(database, `/tasks/${uidd}`), {
       name: Task,
       date: Deadline,
-      uidd: uidd
+      uidd: uidd,
+      status: Status
     });
     e.target.reset();
+    alert("Task Added Successfully!!")
 
   };
 

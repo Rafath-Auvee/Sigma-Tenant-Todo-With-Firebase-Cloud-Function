@@ -29,29 +29,11 @@ const Home = () => {
     await navigate(`/edit/${todo._id}`, { state: todo });
   };
 
-  const confirmDelete = async (id) => {
-    const agree = window.confirm("Confirm?");
-    if (agree) {
-      const url = `https://todoapp-auvee.herokuapp.com/all/${id}`;
-      console.log(id);
-      fetch(url, {
-        method: "DELETE",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log(data);
-          const remaining = todos.filter((todo) => todo._id !== id);
-          setTodo(remaining);
-        });
 
-      //   toast.error("Product Deleted 😭", {
-      //   position: "top-center",
-      //   autoClose: 3000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      // });
+  const confirmDelete = async (id) => {
+    const agree = window.confirm("Confirm Delete?");
+    if (agree) {
+      remove(ref(database, `/tasks/${id}`));
     }
   };
 
@@ -104,27 +86,27 @@ const Home = () => {
                 {(console.log(todo))}
                 <th>{index + 1}</th>
                 
-                {todo ? <td className="no-underline">{todo.name}</td> : <td className="line-through text-green-500 ">{todo.name}</td>}
+                
 
-                {/* {todo.Complete === true && (
-                  
-                )}
-                {todo.Complete === false && (
+                {todo.status === true && (
                   <td className="no-underline">{todo.name}</td>
-                )} */}
+                )}
+                {todo.status === false && (
+                  <td className="no-underline">{todo.name}</td>
+                )}
 
                 
 
-                {todo.Complete === true && (
+                {todo.status === true && (
                   <td className="line-through text-green-500">{todo.date}</td>
                 )}
-                {todo.Complete === false && (
+                {todo.status === false && (
                   <td className="no-underline">{todo.date}</td>
                 )}
 
                 
                 <td>
-                  {todo.Complete === "" && (
+                  {todo.status === "" && (
                     <button
                       onClick={() => handleComplete(todo._id)}
                       className="btn btn-outline bg-blue-500 text-white btn-xs"
@@ -132,7 +114,7 @@ const Home = () => {
                       Pending
                     </button>
                   )}
-                  {todo.Complete === false && (
+                  {todo.status === false && (
                     <button
                       className="btn btn-outline bg-blue-500 text-white btn-xs"
                       onClick={() => handleComplete(todo._id)}
@@ -140,7 +122,7 @@ const Home = () => {
                       Pending
                     </button>
                   )}
-                  {todo.Complete === true && (
+                  {todo.status === true && (
                     <button className="btn btn-outline bg-green-500 text-white btn-xs"
                     onClick={() => handleError(todo._id)}
                     >
@@ -159,7 +141,7 @@ const Home = () => {
                 <th>
                   <button
                     className="btn btn-outline bg-red-500 text-white btn-xs"
-                    onClick={() => confirmDelete(todo._id)}
+                    onClick={() => confirmDelete(todo.uidd)}
                   >
                     Delete
                   </button>
